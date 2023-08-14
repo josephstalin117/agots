@@ -1,4 +1,7 @@
 import unittest
+import pandas as pd
+import sys
+sys.path.append('..')
 
 from agots.multivariate_generators.multivariate_data_generator import MultivariateDataGenerator
 
@@ -91,3 +94,34 @@ class TestMultivariateDataGenerator(unittest.TestCase):
 
         (_, dimensions) = df.shape
         self.assertTrue(dimensions, n)
+
+    def test_create_time_series_from_data(self):
+        df = pd.read_csv("../csv/wucun_TP.csv", encoding='utf-8', header=0)
+        print(df.head(5))
+        n = 1
+        k = 1
+        dg = self.get_multivariate_data_generator(n, k)
+        df = dg.create_time_series_from_data(df)
+
+        print(df)
+
+
+if __name__ == '__main__':
+    #np.random.seed(1337)
+    print("test")
+    STREAM_LENGTH = 5000
+    N = 1
+    K = 1
+
+    raw_df = pd.read_csv("../csv/wucun_TP.csv", encoding='utf-8', header=0)
+    STREAM_LENGTH = len(raw_df)
+
+    # print(raw_df.head(5))
+    raw_df = raw_df['TP']
+    print(raw_df[0])
+
+    dg = MultivariateDataGenerator(STREAM_LENGTH, N, K)
+    df = dg.create_time_series_from_data(raw_df)
+    print(df.head(5))
+
+    dg.add_abnormal_events()

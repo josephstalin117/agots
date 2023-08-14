@@ -156,6 +156,23 @@ class MultivariateDataGenerator:
                     break
             assert(len(df) == self.STREAM_LENGTH + self.max_shift)
         return df
+    
+    # TODO: add events
+    def add_abnormal_events(self, abnormal_rate=0.2):
+        # abnormal
+        df = self.data
+        abnormal_rate = 0.2
+
+        abnormal_events = np.random.randint(len(df), size=int(abnormal_rate * len(df)))
+        # TODO: add four events
+
+        abnormal_types = ['extreme', 'shift', 'trend', 'variance']
+        abnormal_type = abnormal_types[np.random.randint(4)]
+        print(abnormal_type)
+        
+        abnormal_type = [0, 1, 2, 3]
+        print(abnormal_events)
+        pass
 
     def add_outliers(self, config):
         """Adds outliers based on the given configuration to the base line
